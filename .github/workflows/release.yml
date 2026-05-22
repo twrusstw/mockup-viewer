@@ -1,0 +1,85 @@
+name: Release Plugin
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build plugin
+        run: npm run build
+
+      - name: Verify tag is from main branch
+        run: |
+          if ! git branch -r --contains ${{ github.sha }} | grep -q "origin/main"; then
+            echo "❌ Release tags must originate from the main branch"
+            exit 1
+          fi
+
+      - name: Validate version consistency
+        run: |
+          TAG_VERSION=${{ github.ref_name }}
+          MANIFEST_VERSION=$(jq -r '.version' manifest.json)
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "❌ Version mismatch: tag=$TAG_VERSION manifest=$MANIFEST_VERSION"
+            exit 1
+          fi
+
+      - name: Extract CHANGELOG section
+        run: |
+          TAG=${{ github.ref_name }}
+          awk "/^## \\[$TAG\\]/{flag=1; next} /^## \\[/{flag=0} flag" CHANGELOG.md > /tmp/notes.md
+          if [ ! -s /tmp/notes.md ]; then
+            echo "❌ CHANGELOG.md has no entry for $TAG"
+            exit 1
+          fi
+
+      - name: Create or Update GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG=${{ github.ref_name }}
+
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "Release $TAG already exists. Updating assets..."
+          else
+            echo "Creating new release $TAG..."
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes-file /tmp/notes.md
+          fi
+
+          gh release upload "$TAG" \
+            main.js \
+            manifest.json \
+            styles.css \
+            --clobber
+
+      - name: Attest release assets
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            main.js
+            styles.css

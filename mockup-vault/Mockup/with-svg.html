@@ -1,0 +1,23 @@
+<!-- title: Inline SVG example -->
+<!-- viewport: desktop -->
+<div style="max-width: 640px; margin: 48px auto; padding: 24px;">
+  <h2>Inline SVG</h2>
+  <p>Mockups can include arbitrary SVG. The DOMParser preserves SVG namespacing correctly.</p>
+
+  <div style="display: flex; gap: 24px; align-items: center; margin-top: 24px;">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </div>
+
+  <p style="margin-top: 24px;">SVG inherits <code>currentColor</code> from the iframe body, which resolves via the Obsidian theme tokens we snapshot into the iframe.</p>
+</div>

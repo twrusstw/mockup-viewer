@@ -1,0 +1,443 @@
+.mockup-viewer-root {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mockup-viewer-host {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 0;
+  position: relative;
+}
+
+.mockup-viewer-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.mockup-viewer-iframe {
+  display: block;
+  border: none;
+  background: var(--background-primary);
+}
+
+.mockup-viewer-frame {
+  width: var(--mv-frame-width);
+  height: var(--mv-frame-height);
+  max-width: 100%;
+  margin: 16px auto;
+  border: 1px dashed var(--background-modifier-border);
+}
+
+.mockup-viewer-frame--full {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: none;
+}
+
+/* Vertical tab on the right edge of the host, used to re-open the panel when
+   it's collapsed. Mid-height so it doesn't clash with typical top-right plugin
+   buttons (e.g. "+ Add transaction"). */
+.mockup-viewer-reopen {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 60;
+  padding: 18px 4px;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid var(--background-modifier-border);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background: var(--background-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.mockup-viewer-reopen:hover {
+  color: var(--text-normal);
+  background: var(--background-modifier-hover);
+}
+
+/* ── Panel (overlay) ───────────────────────────────────────────────────── */
+
+.mv-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--background-modifier-border);
+  background: var(--background-secondary);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+  padding: 12px 16px 24px;
+  overflow-y: auto;
+  gap: 6px;
+}
+
+.mv-panel-head {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.mv-panel-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* Sibling of .mv-panel (lives at root level, not inside the panel). Sits at
+   the panel's left edge by being positioned right: 280px (panel width). */
+.mockup-viewer-collapse {
+  position: absolute;
+  top: 50%;
+  right: 280px;
+  transform: translateY(-50%);
+  z-index: 60;
+  padding: 18px 4px;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid var(--background-modifier-border);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background: var(--background-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.mockup-viewer-collapse:hover {
+  color: var(--text-normal);
+  background: var(--background-modifier-hover);
+}
+
+.mv-section-title {
+  margin: 14px 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+
+.mv-section-title:first-of-type,
+.mv-panel-head + .mv-section-title {
+  margin-top: 4px;
+}
+
+.mv-config-hint {
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.mv-config-input {
+  width: 100%;
+  font-size: 12px;
+}
+
+.mv-divider {
+  border: none;
+  border-top: 1px solid var(--background-modifier-border);
+  margin: 18px 0 6px;
+}
+
+/* ── File row ──────────────────────────────────────────────────────────── */
+
+.mv-file-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.mv-file-select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mv-reload-btn {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+/* ── Viewport segment ─────────────────────────────────────────────────── */
+
+.mv-segment {
+  display: flex;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mv-segment-btn {
+  flex: 1 1 0;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  padding: 4px 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.mv-segment-btn + .mv-segment-btn {
+  border-left: 1px solid var(--background-modifier-border);
+}
+
+.mv-segment-btn.is-active {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+/* ── Body class chips ─────────────────────────────────────────────────── */
+
+.mv-bclass-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+  min-height: 22px;
+}
+
+.mv-bclass-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: var(--font-monospace);
+}
+
+.mv-bclass-chip-x {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.mv-bclass-chip-x:hover {
+  color: var(--text-error);
+}
+
+/* ── Source chips ─────────────────────────────────────────────────────── */
+
+.mv-source-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.mv-source-empty {
+  font-size: 11px;
+  color: var(--text-faint);
+  font-style: italic;
+  padding: 2px 0;
+}
+
+.mv-source-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  font-size: 12px;
+  min-width: 0;
+}
+
+.mv-source-kind {
+  flex: 0 0 auto;
+  font-family: var(--font-monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-accent);
+  background: var(--background-modifier-hover);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+.mv-source-ref {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-monospace);
+}
+
+.mv-source-x {
+  flex: 0 0 auto;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.mv-source-x:hover {
+  color: var(--text-error);
+}
+
+.mv-add-source {
+  width: 100%;
+  font-size: 12px;
+}
+
+.mv-config-trust {
+  margin-top: 18px;
+  padding: 8px 10px;
+  font-size: 11px;
+  border-radius: 4px;
+  background: var(--background-modifier-hover);
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── Empty state in host ──────────────────────────────────────────────── */
+
+.mockup-viewer-error {
+  padding: 16px;
+  color: var(--text-error);
+  white-space: pre-wrap;
+  font-family: var(--font-monospace);
+  font-size: 12px;
+}
+
+.mockup-viewer-error--overlay {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  max-width: 520px;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-error);
+  border-radius: 6px;
+  box-shadow: var(--shadow-s);
+}
+
+.mockup-viewer-empty {
+  max-width: 520px;
+  margin: 48px auto;
+  padding: 24px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+}
+
+.mockup-viewer-empty h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.mockup-viewer-empty p {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+}
+
+.mockup-viewer-empty-list {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.mockup-viewer-empty-list li {
+  margin-bottom: 6px;
+}
+
+.mockup-viewer-empty-list code {
+  font-size: 11px;
+  padding: 1px 4px;
+  background: var(--background-modifier-hover);
+  border-radius: 2px;
+}
+
+.mockup-viewer-empty-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ── Source panel ──────────────────────────────────────────────────────── */
+.mockup-viewer-source {
+  width: 100%; height: 100%;
+  overflow: hidden;
+}
+.mockup-viewer-source .mv-source-panel {
+  display: flex; flex-direction: column;
+  width: 100%; height: 100%;
+  background: var(--background-primary);
+}
+.mv-source-tabs {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.mv-tab {
+  background: transparent; border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  padding: 2px 8px; font-size: 12px;
+  cursor: pointer; color: var(--text-muted);
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.mv-tab.is-active { background: var(--background-modifier-hover); color: var(--text-normal); }
+.mv-tab.is-readonly { opacity: 0.85; }
+.mv-tab-dirty { color: var(--text-accent); font-weight: bold; }
+.mv-tab-lock { font-size: 10px; opacity: 0.7; }
+.mv-source-toolbar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.mv-source-toolbar .mv-save { padding: 2px 10px; }
+.mv-source-status { font-size: 12px; color: var(--text-muted); }
+.mv-source-status.is-conflict { color: var(--text-warning); }
+.mv-source-status.is-error { color: var(--text-error); }
+.mv-source-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+.mv-editor {
+  width: 100%; height: 100%;
+  border: none; outline: none; resize: none;
+  background: var(--background-primary); color: var(--text-normal);
+  font-family: var(--font-monospace); font-size: 13px;
+  padding: 8px 12px; box-sizing: border-box;
+}
+.mv-source-body pre {
+  margin: 0; padding: 8px 12px;
+  font-family: var(--font-monospace); font-size: 13px;
+  white-space: pre; overflow: auto;
+  background: var(--background-primary); color: var(--text-normal);
+}
+
+/* highlight.js token colors mapped to Obsidian variables */
+.hljs-tag, .hljs-keyword, .hljs-selector-tag { color: var(--color-accent); }
+.hljs-attr, .hljs-attribute, .hljs-property { color: var(--text-accent); }
+.hljs-string, .hljs-number { color: var(--text-success); }
+.hljs-comment { color: var(--text-faint); font-style: italic; }
+
+.mv-mode-row { padding: 4px 0 8px; }
+.mv-mode-toggle {
+  width: 100%; padding: 4px 8px;
+  background: var(--background-modifier-hover);
+  border: 1px solid var(--background-modifier-border); border-radius: 4px;
+  cursor: pointer; color: var(--text-normal);
+}

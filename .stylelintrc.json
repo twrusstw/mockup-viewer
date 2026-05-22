@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "declaration-no-important": [
+      true,
+      { "message": "Avoid !important — increase selector specificity or use CSS variables instead" }
+    ],
+    "selector-disallowed-list": [
+      ["/:has\\(/"],
+      { "message": ":has() has performance implications" }
+    ],
+    "no-duplicate-selectors": true,
+    "declaration-block-no-duplicate-properties": true,
+    "color-hex-length": "long"
+  }
+}

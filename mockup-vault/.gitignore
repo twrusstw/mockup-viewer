@@ -1,0 +1,7 @@
+# Vault-local ignores. Root .gitignore already excludes .obsidian/* except
+# community-plugins.json; this file is for items that don't live under
+# .obsidian/ so the root pattern doesn't catch them.
+.trash/
+
+# Belt-and-braces in case the root .gitignore pattern changes:
+.obsidian/cache
