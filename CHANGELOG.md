@@ -2,6 +2,14 @@
 
 All notable changes to Mockup Viewer will be documented in this file.
 
+## [0.0.2] - 2026-05-25
+
+### Fixed
+- manifest: removed redundant "Obsidian" word from plugin description (community plugin review requirement)
+
+### Docs
+- README slimmed (~205 → 136 lines); moved directive full reference to `docs/directives.md` and Chart.js integration to `docs/charts.md`
+
 ## [0.0.1] - 2026-05-24
 
 ### Added
