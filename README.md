@@ -1,6 +1,6 @@
 # Mockup Viewer
 
-A **design-time** tool for Obsidian plugin authors. Drop a `.html` file into your vault and Mockup Viewer renders it inside an isolated iframe with Obsidian's `app.css`, the active theme, and your plugin CSS all injected — so it looks like the real thing without the build / reload loop.
+A **design-time** tool for plugin authors. Drop a `.html` file into your vault and Mockup Viewer renders it inside an isolated iframe with Obsidian's `app.css`, the active theme, and your plugin CSS all injected — so it looks like the real thing without the build / reload loop.
 
 ## Why
 
@@ -88,91 +88,22 @@ Edit either the HTML or the source stylesheet — the preview re-renders within 
 
 ## Mockup directives
 
-A `.html` file can start with a **contiguous block** of HTML comments configuring how it's rendered. The block ends at the first non-directive line.
+A `.html` file can start with a contiguous block of HTML comments to control viewport, shell scaffold (`as: modal` / `settings` / etc.), host class, and per-file style sources:
 
 ```html
-<!-- title: Settings draft -->
 <!-- as: settings -->
 <!-- host: my-plugin-settings -->
-<!-- viewport: desktop -->
-<!-- body-class: theme-dark -->
-<!-- styles: plugin:my-plugin, vault:Mockup/wip.css -->
+<!-- viewport: mobile -->
 <div class="setting-item">…</div>
 ```
 
-### Full reference
-
-| Directive | Value | Effect |
-|---|---|---|
-| `title` | any string | Informational; not rendered |
-| `as` | `view` / `modal` / `settings` / `popover` / `suggest` | Wrap the body in an Obsidian shell scaffold (see below). Default `view` |
-| `host` | one class name | Added to the shell's inner content element (so `.my-host .my-card` selectors match) |
-| `container` | one class name | Added to the shell's outermost wrapper |
-| `viewport` | `desktop` / `tablet` / `mobile` / `800x600` | Iframe wrapper size. Panel segment overrides this per session |
-| `body-class` | space-separated classes | Extra classes on iframe `<body>`. Combines with viewport-derived classes and panel chips |
-| `styles` | comma-separated source list | Per-mockup override of the global Settings sources |
-
-### `as` — Obsidian shell presets
-
-Skip `as` and your body lands directly on `<body>` (fine for view content). Otherwise the viewer wraps your body in the scaffolding Obsidian uses for that surface, so ancestor-dependent selectors still match:
-
-| `as` | Use for | Where your HTML lands |
-|---|---|---|
-| `view` | Leaf content, right-side panel | `<body>` |
-| `modal` | Confirm / form modal | `.modal-content` (outer `.modal-container > .modal-bg + .modal` + close button + header pre-built) |
-| `settings` | Plugin settings tab | `.vertical-tab-content` (full `.modal.mod-sidebar-layout` + placeholder left nav pre-built) |
-| `popover` | Hover popover / link preview | `.popover.hover-popover` |
-| `suggest` | Suggester / palette | `.suggestion-container > .suggestion` |
-
-`host` goes on the innermost element. For example, `as: settings` + `host: my-settings` puts `my-settings` on `.vertical-tab-content`, so you can write `.my-settings .setting-item` selectors.
-
-### Viewport details
-
-| Value | Iframe size | Auto-added body class |
-|---|---|---|
-| `desktop` | full-bleed | — |
-| `tablet` | 1024 × 1366 | — |
-| `mobile` | 430 × 932 | `is-phone` |
-| `800x600` (custom WxH) | exact | — |
-
-The panel's Desktop / Tablet / Mobile buttons **override** the directive viewport, until you switch to another file (which resets to that file's directive).
+Full reference (all directives, shell presets, viewport sizes) → [docs/directives.md](docs/directives.md).
 
 ---
 
-## Charts (Chart.js)
+## Charts
 
-`chart.js` + `chartjs-plugin-datalabels` are bundled into the iframe. Datalabels is auto-registered.
-
-### Simple: `data-chart-config` JSON
-
-```html
-<canvas data-chart-config='{
-  "type": "bar",
-  "data": { "labels": ["A","B","C"], "datasets": [{ "label":"x", "data":[1,2,3] }] },
-  "options": { "responsive": true, "maintainAspectRatio": false }
-}'></canvas>
-```
-
-After Chart.js loads, the viewer auto-wires every `canvas[data-chart-config]`. **JSON only — no function values.**
-
-### Advanced: inline `<script>`
-
-For tick formatters, datalabels callbacks, dynamic colours from CSS variables:
-
-```html
-<canvas id="my-chart"></canvas>
-<script>
-  new Chart(document.getElementById('my-chart'), {
-    type: 'line',
-    data: { /* … */ },
-    options: {
-      scales: { y: { ticks: { callback: (v) => v + 'k' } } },
-    },
-  });
-</script>
-```
-
-The iframe rehydrates `<script>` elements so your inline JS actually runs.
+`chart.js` + `chartjs-plugin-datalabels` are bundled into the iframe — wire a canvas with `data-chart-config='{...}'` or use inline `<script>`. Details → [docs/charts.md](docs/charts.md).
 
 ---
 

@@ -3,7 +3,7 @@
   "name": "Mockup Viewer",
   "version": "0.0.1",
   "minAppVersion": "1.4.0",
-  "description": "Render HTML mockups inside an Obsidian view, with your plugin's CSS injected into an isolated iframe. A design-time tool for plugin authors prototyping UI.",
+  "description": "Preview HTML mockups from your vault with your plugin's CSS injected into an isolated iframe, for design-time UI prototyping.",
   "author": "twrusstw",
   "authorUrl": "https://github.com/twrusstw",
   "isDesktopOnly": true
