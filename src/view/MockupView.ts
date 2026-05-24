@@ -1,4 +1,4 @@
-import { ItemView, Notice, TFile, WorkspaceLeaf } from 'obsidian'
+import { ItemView, Notice, TFile, TFolder, WorkspaceLeaf } from 'obsidian'
 import type MockupViewerPlugin from '../main'
 import {
   parseMockup,
@@ -323,9 +323,10 @@ export class MockupView extends ItemView {
   }
 
   private listMockupFiles(): TFile[] {
-    return this.app.vault
-      .getFiles()
-      .filter((f) => this.isMockupFile(f))
+    const folder = this.app.vault.getAbstractFileByPath(this.mockupFolder())
+    if (!(folder instanceof TFolder)) return []
+    return folder.children
+      .filter((f): f is TFile => f instanceof TFile && f.extension === 'html')
       .sort((a, b) => a.path.localeCompare(b.path))
   }
 

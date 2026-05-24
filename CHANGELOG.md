@@ -2,6 +2,16 @@
 
 All notable changes to Mockup Viewer will be documented in this file.
 
+## [0.0.3] - 2026-05-25
+
+### Changed
+- iframe content injection switched to `srcdoc`-driven loading; user inline scripts and the bundled Chart.js run natively without per-element rehydration
+- mockup file enumeration now reads the configured folder directly via `getAbstractFileByPath` instead of scanning the whole vault
+
+### Internal
+- removed `src/iframe/scripts.ts` (no longer needed)
+- both changes are review-driven (community plugin scanner flagged dynamic `<script>` construction and full-vault enumeration)
+
 ## [0.0.2] - 2026-05-25
 
 ### Fixed

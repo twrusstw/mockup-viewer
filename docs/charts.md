@@ -31,4 +31,4 @@ For tick formatters, datalabels callbacks, dynamic colours from CSS variables:
 </script>
 ```
 
-The iframe rehydrates `<script>` elements so your inline JS actually runs.
+Inline `<script>` elements run natively — the iframe loads the mockup as a fresh document, so your code executes the same way a browser would parse a standalone page.
