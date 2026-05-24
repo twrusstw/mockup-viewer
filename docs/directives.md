@@ -17,7 +17,7 @@ A `.html` file can start with a **contiguous block** of HTML comments configurin
 | Directive | Value | Effect |
 |---|---|---|
 | `title` | any string | Informational; not rendered |
-| `as` | `view` / `modal` / `settings` / `popover` / `suggest` | Wrap the body in a shell scaffold (see below). Default `view` |
+| `as` | one of the 7 shell presets (see below) | Wrap the body in a shell scaffold. Default `view` |
 | `host` | one class name | Added to the shell's inner content element (so `.my-host .my-card` selectors match) |
 | `container` | one class name | Added to the shell's outermost wrapper |
 | `viewport` | `desktop` / `tablet` / `mobile` / `800x600` | Iframe wrapper size. Panel segment overrides this per session |
@@ -26,15 +26,17 @@ A `.html` file can start with a **contiguous block** of HTML comments configurin
 
 ## `as` — shell presets
 
-Skip `as` and your body lands directly on `<body>` (fine for view content). Otherwise the viewer wraps your body in the scaffolding the app uses for that surface, so ancestor-dependent selectors still match:
+Skip `as` and your body defaults to `view`. Each shell maps to an Obsidian plugin API class a developer extends, and reproduces that class's real DOM nesting so ancestor-dependent selectors and inherited overflow/sizing behave the same as the live app.
 
-| `as` | Use for | Where your HTML lands |
-|---|---|---|
-| `view` | Leaf content, right-side panel | `<body>` |
-| `modal` | Confirm / form modal | `.modal-content` (outer `.modal-container > .modal-bg + .modal` + close button + header pre-built) |
-| `settings` | Plugin settings tab | `.vertical-tab-content` (full `.modal.mod-sidebar-layout` + placeholder left nav pre-built) |
-| `popover` | Hover popover / link preview | `.popover.hover-popover` |
-| `suggest` | Suggester / palette | `.suggestion-container > .suggestion` |
+| `as` | Maps to | Where your HTML lands | Outer scaffold |
+|---|---|---|---|
+| `view` | `ItemView` / `FileView` | `.view-content` | `body > .workspace-leaf > .workspace-leaf-content[data-type]` |
+| `markdown-view` | `MarkdownView` (reading mode) | `.markdown-preview-sizer` | `.markdown-preview-view.markdown-rendered` + `.markdown-preview-pusher` pre-appended |
+| `modal` | `Modal` | `.modal-content` | `.modal-container.mod-dim > .modal-bg + .modal.mod-scrollable` + close button + header |
+| `suggest` | `SuggestModal` / `FuzzySuggestModal` | `.suggestion` | `.suggestion-container`; first `.suggestion-item` auto gets `.is-selected` if none |
+| `settings` | `PluginSettingTab` | `.vertical-tab-content` | `.modal.mod-sidebar-layout.mod-settings` + placeholder left nav |
+| `popover` | `HoverPopover` | `.markdown-embed-content` | `.popover.hover-popover > .markdown-embed` |
+| `input-suggest` | `AbstractInputSuggest` | `.suggestion` | sample `<input>` + `.suggestion-container` rendered inline below it (real Obsidian floats this absolutely via JS portal; mockup approximates the visual) |
 
 `host` goes on the innermost element. For example, `as: settings` + `host: my-settings` puts `my-settings` on `.vertical-tab-content`, so you can write `.my-settings .setting-item` selectors.
 

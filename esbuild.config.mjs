@@ -101,14 +101,17 @@ function watchStaticAssets() {
 
 // Bundled sample mockups — read at build time so they ship inside main.js.
 // "Import sample pack" copies these into the user's mockup folder on demand.
-const exampleDir = join(rootDir, 'mockup-vault/Mockup')
+// Lives in `samples/` (separate from `mockup-vault/Mockup/` so the dev QA vault
+// can be wiped without losing the bundle source).
+const exampleDir = join(rootDir, 'samples')
 const sampleHello = fs.readFileSync(join(exampleDir, 'hello.html'), 'utf8')
-const sampleWithChart = fs.readFileSync(join(exampleDir, 'with-chart.html'), 'utf8')
 const sampleWithSvg = fs.readFileSync(join(exampleDir, 'with-svg.html'), 'utf8')
-const sampleObsidianSettings = fs.readFileSync(join(exampleDir, 'obsidian-settings-tab.html'), 'utf8')
-const sampleObsidianSuggest = fs.readFileSync(join(exampleDir, 'obsidian-suggest-modal.html'), 'utf8')
-const sampleObsidianPrompt = fs.readFileSync(join(exampleDir, 'obsidian-prompt-modal.html'), 'utf8')
-const sampleObsidianNotice = fs.readFileSync(join(exampleDir, 'obsidian-notice.html'), 'utf8')
+const sampleModalDemo = fs.readFileSync(join(exampleDir, 'modal-demo.html'), 'utf8')
+const sampleMarkdownViewDemo = fs.readFileSync(join(exampleDir, 'markdown-view-demo.html'), 'utf8')
+const sampleSettingsDemo = fs.readFileSync(join(exampleDir, 'settings-demo.html'), 'utf8')
+const samplePopoverDemo = fs.readFileSync(join(exampleDir, 'popover-demo.html'), 'utf8')
+const sampleSuggestDemo = fs.readFileSync(join(exampleDir, 'suggest-demo.html'), 'utf8')
+const sampleInputSuggestDemo = fs.readFileSync(join(exampleDir, 'input-suggest-demo.html'), 'utf8')
 
 // Chart.js + datalabels are injected into the iframe as raw text, so user
 // mockups can render <canvas data-chart-config="..."> charts without us
@@ -154,12 +157,13 @@ const context = await esbuild.context({
   define: {
     '__CHART_JS_BUNDLE__': JSON.stringify(chartJsBundle),
     '__SAMPLE_HELLO__': JSON.stringify(sampleHello),
-    '__SAMPLE_WITH_CHART__': JSON.stringify(sampleWithChart),
     '__SAMPLE_WITH_SVG__': JSON.stringify(sampleWithSvg),
-    '__SAMPLE_OBSIDIAN_SETTINGS__': JSON.stringify(sampleObsidianSettings),
-    '__SAMPLE_OBSIDIAN_SUGGEST__': JSON.stringify(sampleObsidianSuggest),
-    '__SAMPLE_OBSIDIAN_PROMPT__': JSON.stringify(sampleObsidianPrompt),
-    '__SAMPLE_OBSIDIAN_NOTICE__': JSON.stringify(sampleObsidianNotice),
+    '__SAMPLE_MODAL_DEMO__': JSON.stringify(sampleModalDemo),
+    '__SAMPLE_MARKDOWN_VIEW_DEMO__': JSON.stringify(sampleMarkdownViewDemo),
+    '__SAMPLE_SETTINGS_DEMO__': JSON.stringify(sampleSettingsDemo),
+    '__SAMPLE_POPOVER_DEMO__': JSON.stringify(samplePopoverDemo),
+    '__SAMPLE_SUGGEST_DEMO__': JSON.stringify(sampleSuggestDemo),
+    '__SAMPLE_INPUT_SUGGEST_DEMO__': JSON.stringify(sampleInputSuggestDemo),
   },
   format: 'cjs',
   target: 'es2018',

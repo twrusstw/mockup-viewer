@@ -4,21 +4,26 @@
 // without referencing globalThis.
 
 declare const __SAMPLE_HELLO__: string
-declare const __SAMPLE_WITH_CHART__: string
 declare const __SAMPLE_WITH_SVG__: string
-declare const __SAMPLE_OBSIDIAN_SETTINGS__: string
-declare const __SAMPLE_OBSIDIAN_SUGGEST__: string
-declare const __SAMPLE_OBSIDIAN_PROMPT__: string
-declare const __SAMPLE_OBSIDIAN_NOTICE__: string
+declare const __SAMPLE_MODAL_DEMO__: string
+declare const __SAMPLE_MARKDOWN_VIEW_DEMO__: string
+declare const __SAMPLE_SETTINGS_DEMO__: string
+declare const __SAMPLE_POPOVER_DEMO__: string
+declare const __SAMPLE_SUGGEST_DEMO__: string
+declare const __SAMPLE_INPUT_SUGGEST_DEMO__: string
 
+// One realistic demo per Obsidian API class a plugin developer can extend,
+// plus hello.html as the intro and with-svg.html as a misc example.
+// "Import sample pack" copies these into the configured mockup folder.
 export const SAMPLE_PACK: Array<[string, string]> = [
   ['hello.html', __SAMPLE_HELLO__],
-  ['with-chart.html', __SAMPLE_WITH_CHART__],
   ['with-svg.html', __SAMPLE_WITH_SVG__],
-  ['obsidian-settings-tab.html', __SAMPLE_OBSIDIAN_SETTINGS__],
-  ['obsidian-suggest-modal.html', __SAMPLE_OBSIDIAN_SUGGEST__],
-  ['obsidian-prompt-modal.html', __SAMPLE_OBSIDIAN_PROMPT__],
-  ['obsidian-notice.html', __SAMPLE_OBSIDIAN_NOTICE__],
+  ['modal-demo.html', __SAMPLE_MODAL_DEMO__],
+  ['markdown-view-demo.html', __SAMPLE_MARKDOWN_VIEW_DEMO__],
+  ['settings-demo.html', __SAMPLE_SETTINGS_DEMO__],
+  ['popover-demo.html', __SAMPLE_POPOVER_DEMO__],
+  ['suggest-demo.html', __SAMPLE_SUGGEST_DEMO__],
+  ['input-suggest-demo.html', __SAMPLE_INPUT_SUGGEST_DEMO__],
 ]
 
 // Two ways for a mockup to render Chart.js charts:

@@ -1,0 +1,68 @@
+<!-- title: View shell — directives + Chart.js -->
+<!-- viewport: desktop -->
+<div style="max-width: 720px; margin: 32px auto; padding: 24px;">
+  <h1>View shell demo</h1>
+  <p>This file demonstrates the default <code>view</code> shell — body is wrapped
+  in <code>.workspace-leaf-content &gt; .view-content</code>, which inherits
+  Obsidian's <code>overflow: auto</code>. Content longer than the viewport
+  scrolls inside <code>.view-content</code> rather than being clipped.</p>
+
+  <h2>Directives reference</h2>
+  <ul>
+    <li><code>&lt;!-- as: modal --&gt;</code> — shell preset (see <code>docs/directives.md</code>)</li>
+    <li><code>&lt;!-- host: my-class --&gt;</code> — class on shell's inner content element</li>
+    <li><code>&lt;!-- viewport: mobile --&gt;</code> — preset (<code>desktop</code>/<code>tablet</code>/<code>mobile</code>) or <code>800x600</code></li>
+    <li><code>&lt;!-- body-class: is-phone is-keyboard-open --&gt;</code> — extra body classes</li>
+    <li><code>&lt;!-- styles: plugin:foo, vault:Mockup/draft.css --&gt;</code> — per-file source override</li>
+    <li><code>&lt;!-- title: ... --&gt;</code> — display label</li>
+  </ul>
+
+  <h2 style="margin-top: 32px;">Simple chart (JSON config)</h2>
+  <p>Use <code>data-chart-config</code> attribute for charts without function callbacks:</p>
+  <div style="height: 240px; margin-top: 16px; position: relative;">
+    <canvas data-chart-config='{
+      "type": "bar",
+      "data": {
+        "labels": ["Mon", "Tue", "Wed", "Thu", "Fri"],
+        "datasets": [{ "label": "Sales", "data": [12, 19, 7, 15, 22], "backgroundColor": "#5DCAA5" }]
+      },
+      "options": {
+        "responsive": true,
+        "maintainAspectRatio": false,
+        "scales": { "y": { "beginAtZero": true } }
+      }
+    }'></canvas>
+  </div>
+
+  <h2 style="margin-top: 32px;">Advanced chart (inline script)</h2>
+  <p>For tick callbacks, datalabels formatters, dynamic colors — write inline <code>&lt;script&gt;</code>:</p>
+  <div style="height: 240px; margin-top: 16px; position: relative;">
+    <canvas id="custom-chart"></canvas>
+  </div>
+  <script>
+    (function () {
+      if (typeof Chart === 'undefined') return;
+      var c = document.getElementById('custom-chart');
+      if (!c) return;
+      new Chart(c, {
+        type: 'line',
+        data: {
+          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+          datasets: [{
+            label: 'Revenue (k)',
+            data: [4200, 5100, 4800, 6300],
+            borderColor: '#378ADD',
+            pointBackgroundColor: '#378ADD',
+            tension: 0.3,
+            fill: false,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { ticks: { callback: function (v) { return '$' + (v / 1000).toFixed(1) + 'k'; } } } },
+        },
+      });
+    })();
+  </script>
+</div>

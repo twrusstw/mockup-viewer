@@ -7,9 +7,27 @@
 //   <!-- viewport: mobile -->              → preset name or WxH (e.g. 800x600)
 //   <!-- body-class: is-phone is-keyboard --> → additional iframe body classes
 
-export type ComponentShell = 'view' | 'modal' | 'settings' | 'popover' | 'suggest'
+// Shell presets map 1:1 onto Obsidian plugin API classes a developer extends.
+// Naming follows the class name (lowercased, hyphenated) so it's obvious which
+// shell to pick for which subclass.
+export type ComponentShell =
+  | 'view'           // ItemView / FileView base
+  | 'markdown-view'  // MarkdownView (reading mode appearance)
+  | 'modal'          // Modal
+  | 'suggest'        // SuggestModal / FuzzySuggestModal
+  | 'settings'       // PluginSettingTab
+  | 'popover'        // HoverPopover
+  | 'input-suggest'  // AbstractInputSuggest (inline dropdown under an input)
 
-export const COMPONENT_SHELLS: ComponentShell[] = ['view', 'modal', 'settings', 'popover', 'suggest']
+export const COMPONENT_SHELLS: ComponentShell[] = [
+  'view',
+  'markdown-view',
+  'modal',
+  'suggest',
+  'settings',
+  'popover',
+  'input-suggest',
+]
 
 export interface Directives {
   host?: string

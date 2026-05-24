@@ -2,7 +2,7 @@ import type { ComponentShell } from '../directives'
 import { appendStyle } from './dom'
 import { installHotkeyForwarder } from './hotkeys'
 import { appendObsidianLinks } from './obsidian-css'
-import { SHELL_OVERRIDE_CSS, buildShell } from './shell'
+import { SHELL_OVERRIDE_CSS, buildShell, decorateShell } from './shell'
 
 // Build a complete HTML document as a string, then load it into the iframe
 // via `srcdoc`. The browser parses srcdoc as a fresh document, so any inline
@@ -66,8 +66,10 @@ function buildIframeHtml(opts: IframeBuildOpts): string {
   opts.themeClasses?.forEach(c => doc.body.classList.add(c))
   opts.bodyClasses.forEach(c => doc.body.classList.add(c))
 
-  const target = buildShell(doc, opts.shell ?? 'view', opts.hostClass, opts.containerClass)
+  const shell = opts.shell ?? 'view'
+  const target = buildShell(doc, shell, opts.hostClass, opts.containerClass)
   injectBody(doc, opts.body, target)
+  decorateShell(shell, target)
 
   let html = '<!doctype html>' + doc.documentElement.outerHTML
 

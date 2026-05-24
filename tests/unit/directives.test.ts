@@ -71,11 +71,18 @@ describe('parseMockup', () => {
   })
 
   it('as directive accepts known shells', () => {
-    expect(parseMockup('<!-- as: modal -->\n<div></div>').directives.as).toBe('modal')
+    const shells = [
+      'view', 'markdown-view', 'modal', 'suggest',
+      'settings', 'popover', 'input-suggest',
+    ]
+    for (const s of shells) {
+      expect(parseMockup(`<!-- as: ${s} -->\n<div></div>`).directives.as).toBe(s)
+    }
+  })
+
+  it('as directive is case-insensitive', () => {
     expect(parseMockup('<!-- as: VIEW -->\n<div></div>').directives.as).toBe('view')
-    expect(parseMockup('<!-- as: settings -->\n<div></div>').directives.as).toBe('settings')
-    expect(parseMockup('<!-- as: popover -->\n<div></div>').directives.as).toBe('popover')
-    expect(parseMockup('<!-- as: suggest -->\n<div></div>').directives.as).toBe('suggest')
+    expect(parseMockup('<!-- as: Markdown-View -->\n<div></div>').directives.as).toBe('markdown-view')
   })
 
   it('as directive ignores unknown values', () => {
