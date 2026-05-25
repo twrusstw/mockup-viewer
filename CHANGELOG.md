@@ -29,7 +29,7 @@ All notable changes to Mockup Viewer will be documented in this file.
 - removed `src/iframe/scripts.ts` (no longer needed)
 - review-driven changes: community plugin scanner flagged dynamic `<script>` construction (now via `srcdoc` string-concat) and full-vault enumeration (now folder-scoped)
 - bundled sample-pack sources moved from `mockup-vault/Mockup/` to `samples/` so the dev QA vault can be wiped without losing the bundle source
-- added `scripts/reset-vault.sh` to wipe the dev vault back to first-install state (empty `Mockup/` + default `data.json`) for testing the empty-state flow
+- added `scripts/reset-vault.sh` to wipe the dev vault back to first-install state (empty `Mockup/` + default `data.json`) for testing the empty-state flow; defaults to seeding the `mockup-viewer` plugin as a source so the "Import sample pack" empty state appears immediately, or pass `--no-source` for a truly fresh `no-sources` state
 
 ## [0.0.2] - 2026-05-25
 

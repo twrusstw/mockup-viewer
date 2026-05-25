@@ -14,19 +14,24 @@
 #   scripts/reset-vault.sh                  # default vault (./mockup-vault)
 #   scripts/reset-vault.sh /path/to/vault   # custom vault
 #   scripts/reset-vault.sh --keep-data      # wipe Mockup/ but preserve data.json
+#   scripts/reset-vault.sh --no-source      # truly fresh install (empty sources)
 #
-# After reset, open the Mockup viewer pane in Obsidian and click "Import sample
-# pack" to repopulate the folder from the bundled samples.
+# Default behaviour seeds the `mockup-viewer` plugin as a stylesheet source so
+# the viewer immediately shows the `no-files` empty state with "Import sample
+# pack" — the most useful entry point for testing. Pass --no-source to leave
+# sources empty (shows the earlier `no-sources` empty state instead).
 
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 KEEP_DATA=0
+NO_SOURCE=0
 VAULT="$REPO_ROOT/mockup-vault"
 
 for arg in "$@"; do
   case "$arg" in
     --keep-data) KEEP_DATA=1 ;;
+    --no-source) NO_SOURCE=1 ;;
     -*) echo "Unknown flag: $arg" >&2; exit 1 ;;
     *) VAULT="$arg" ;;
   esac
@@ -65,10 +70,16 @@ fi
 # 2. Reset plugin data.json unless --keep-data.
 if [[ "$KEEP_DATA" -eq 0 ]]; then
   if [[ -d "$PLUGIN_DIR" ]]; then
-    echo "Resetting $DATA_JSON to defaults"
+    if [[ "$NO_SOURCE" -eq 1 ]]; then
+      SOURCES='[]'
+      echo "Resetting $DATA_JSON (no source — truly fresh state)"
+    else
+      SOURCES='["plugin:mockup-viewer"]'
+      echo "Resetting $DATA_JSON (default source: mockup-viewer plugin)"
+    fi
     cat > "$DATA_JSON" <<EOF
 {
-  "sources": [],
+  "sources": $SOURCES,
   "mockupFolder": "$MOCKUP_FOLDER_DEFAULT",
   "obsidianCss": true
 }
