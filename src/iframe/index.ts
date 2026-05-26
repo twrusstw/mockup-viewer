@@ -24,6 +24,8 @@ export {
 
 export {
   snapshotObsidianStylesheetLinks,
+  snapshotObsidianInlineStyles,
+  extractInlineStyleTexts,
 } from './obsidian-css'
 
 export type { IframeBuildOpts } from './populate'

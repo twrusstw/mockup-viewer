@@ -1,7 +1,7 @@
 import type { ComponentShell } from '../directives'
 import { appendStyle } from './dom'
 import { installHotkeyForwarder } from './hotkeys'
-import { appendObsidianLinks } from './obsidian-css'
+import { appendObsidianLinks, appendObsidianInlineStyles } from './obsidian-css'
 import { SHELL_OVERRIDE_CSS, buildShell, decorateShell } from './shell'
 
 // Build a complete HTML document as a string, then load it into the iframe
@@ -26,6 +26,7 @@ export interface IframeBuildOpts {
   themeTokensCss?: string
   fontFacesCss?: string
   obsidianStylesheetUrls?: string[]
+  obsidianInlineStyles?: string[]
   shell?: ComponentShell
 }
 
@@ -60,6 +61,7 @@ function buildIframeHtml(opts: IframeBuildOpts): string {
   appendStyle(doc, 'theme', opts.themeTokensCss)
   appendStyle(doc, 'fonts', opts.fontFacesCss)
   appendObsidianLinks(doc, opts.obsidianStylesheetUrls)
+  appendObsidianInlineStyles(doc, opts.obsidianInlineStyles)
   appendStyle(doc, 'shell-override', SHELL_OVERRIDE_CSS)
   appendStyle(doc, 'sources', opts.sourceCss)
 

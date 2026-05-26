@@ -16,7 +16,8 @@ import { SourcePanel, type ResolvedSource } from './SourcePanel'
 import { SourcePickerModal } from './SourcePickerModal'
 import {
   createBlankIframe, populateIframe,
-  snapshotThemeTokens, snapshotFontFaces, snapshotThemeClasses, snapshotObsidianStylesheetLinks,
+  snapshotThemeTokens, snapshotFontFaces, snapshotThemeClasses,
+  snapshotObsidianStylesheetLinks, snapshotObsidianInlineStyles,
 } from '../iframe'
 import { CHART_BOOTSTRAP, EXAMPLE_HTML, SAMPLE_PACK } from './constants'
 import { applyViewport } from './viewport'
@@ -480,6 +481,9 @@ export class MockupView extends ItemView {
         fontFacesCss: snapshotFontFaces(),
         obsidianStylesheetUrls: this.plugin.settings.obsidianCss
           ? snapshotObsidianStylesheetLinks()
+          : undefined,
+        obsidianInlineStyles: this.plugin.settings.obsidianCss
+          ? snapshotObsidianInlineStyles()
           : undefined,
         shell: parsed.directives.as,
         containerClass: parsed.directives.container,
