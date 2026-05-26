@@ -2,6 +2,15 @@
 
 All notable changes to Mockup Viewer will be documented in this file.
 
+## [0.0.4] - 2026-05-27
+
+### Fixed
+- iframe now picks up Obsidian theme CSS (e.g. Minimal's 267KB `theme.css`) and plugin-generated rules (Style Settings' `#css-settings-manager`), which Obsidian injects as inline `<style>` rather than `<link>` — the previous link-only snapshot missed them, so mockups rendered with theme variables but not theme selector rules
+
+### Internal
+- `snapshotObsidianInlineStyles` + `appendObsidianInlineStyles` parallel the existing `<link>` clone path; `extractInlineStyleTexts` extracted as a pure helper with unit tests
+- own `styles.css` tagged with `data-mv="plugin-own"` (sync scan + `MutationObserver` fallback because Obsidian injects after `onload`) so the snapshot skips it instead of double-stacking `.mockup-viewer-root` rules into the iframe
+
 ## [0.0.3] - 2026-05-25
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "mockup-viewer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Dev-only Obsidian plugin to render HTML mockups for UI prototyping",
   "main": "main.js",
   "private": true,

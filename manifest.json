@@ -1,7 +1,7 @@
 {
   "id": "mockup-viewer",
   "name": "Mockup Viewer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "minAppVersion": "1.4.0",
   "description": "Preview HTML mockups from your vault with your plugin's CSS injected into an isolated iframe, for design-time UI prototyping.",
   "author": "twrusstw",
